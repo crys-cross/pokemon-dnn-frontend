@@ -6,7 +6,7 @@ import Footer from "../components/Footer"
 
 export default function Home() {
     return (
-        <div className={styles.container}>
+        <div className="bg-primary w-full overflow-hidden">
             {/* header / connect button / nav bar */}
             <Header />
             <Mint />
