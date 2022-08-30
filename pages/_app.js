@@ -7,8 +7,8 @@ function MyApp({ Component, pageProps }) {
     return (
         <div>
             <Head>
-                <title>Blockchain Pokemon Day and Night Demo</title>
-                <meta name="description" content="Blockchain Pokemon Demo" />
+                <title>Demo Blockchain PKMN NFT</title>
+                <meta name="description" content="Demo Blockchain PKMN NFT" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <MoralisProvider initializeOnMount={false}>

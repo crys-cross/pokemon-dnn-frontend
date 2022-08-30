@@ -1,16 +1,18 @@
 import { useWeb3Contract } from "react-moralis"
-import { pokemonNftabi, networkAddresses } from "../constants"
+import pokemonNftabi from "../constants/pokemonNftAbi.json"
+import networkAddresses from "../constants/pokemonNftAbi.json"
 import { useMoralis } from "react-moralis"
 import { useEffect, useState } from "react"
 import { ethers } from "ethers"
 import { useNotification } from "web3uikit"
 import { Button } from "web3uikit"
+import Image from "next/image"
 
 const Mint = () => {
-    const { chainId: chainIdHex, isWeb3Enabled } = useMoralis()
+    const { Moralis, isWeb3Enabled, chainId: chainIdHex } = useMoralis()
     console.log(parseInt(chainIdHex))
     const chainId = parseInt(chainIdHex)
-    const lotteryAddress = chainId in networkAddresses ? networkAddresses[chainId][0] : null
+    const pkmnAddress = chainId in networkAddresses ? networkAddresses[chainId][0] : null
     const [mintFee, setMintFee] = useState("0")
     const dispatch = useNotification()
 
@@ -20,7 +22,7 @@ const Mint = () => {
         isFetching,
     } = useWeb3Contract({
         abi: pokemonNftabi,
-        contractAddress: lotteryAddress,
+        contractAddress: pkmnAddress,
         functionName: "catchNft",
         params: {},
         msgValue: mintFee,
@@ -28,7 +30,7 @@ const Mint = () => {
 
     const { runContractFunction: getMintFee } = useWeb3Contract({
         abi: pokemonNftabi,
-        contractAddress: lotteryAddress,
+        contractAddress: pkmnAddress,
         functionName: "getMintFee",
         params: {},
     })
@@ -44,7 +46,13 @@ const Mint = () => {
         }
     }, [isWeb3Enabled])
 
-    const handleEnterSuccess = () => {
+    const handleSuccess = async (tx) => {
+        await tx.wait(1)
+        handleSuccessNotification(tx)
+        updateUI()
+    }
+
+    const handleSuccessNotification = () => {
         dispatch({
             type: "sucess",
             message: "Entered Successfully",
@@ -57,11 +65,31 @@ const Mint = () => {
     return (
         <section>
             <div>
-                <img />
+                <Image />
                 <p></p>
             </div>
             <div>
-                <Button />
+                {lotteryAddress ? (
+                    <Button
+                        onClick={async () =>
+                            await catchNft({
+                                // onComplete:
+                                // onError:
+                                onSuccess: handleSuccess,
+                                onError: (error) => console.log(error),
+                            })
+                        }
+                        text="Primary Button"
+                        theme="outline"
+                    />
+                ) : (
+                    <div>
+                        <p>
+                            Please Connect Wallet and switch to supported networks which are:
+                            Goerli, Mumbai, Fantom Test, and Fuji.
+                        </p>
+                    </div>
+                )}
             </div>
         </section>
     )

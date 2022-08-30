@@ -1,7 +1,6 @@
-import facebook from "./facebook.png"
-import instagram from "./instagram.png"
-import linkedin from "./linkedin.png"
-import twitter from "./twitter.png"
-
+import facebook from "./facebook.svg"
+import instagram from "./instagram.svg"
+import linkedin from "./linkedin.svg"
+import twitter from "./twitter.svg"
 
 export { facebook, instagram, linkedin, twitter }
