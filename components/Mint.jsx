@@ -69,11 +69,11 @@ const Mint = () => {
     })
 
     const updateUI = async () => {
-        setMintFee((await getMintFee()).toString())
-        setCommonCounter((await getCommonCounter()).toString())
-        setShinyCounter((await getShinyCounter()).toString())
-        setTotalMinted((await getTokenCounter()).toString())
-        setIsItDay((await getIsItDayTime()).toString())
+        setMintFee(await getMintFee())
+        setCommonCounter(await getCommonCounter())
+        setShinyCounter(await getShinyCounter())
+        setTotalMinted(await getTokenCounter())
+        setIsItDay(await getIsItDayTime())
     }
 
     useEffect(() => {
@@ -98,16 +98,20 @@ const Mint = () => {
         })
     }
 
-    let time = isItDay ? day : night
+    // let time = isItDay === true ? day : night
 
     return (
         <section>
-            <div>
-                <Image src={time} />
-                <p></p>
+            <div className={`flex flex-row p-6 rounded-[20px] feature-card`}>
+                <Image src={day} alt="time" className="w-[50%] object-contain" />
+                <p className="flex md:flex-row flex-col sm:py-16 py-6">
+                    This is for demo purposes to show a pokemon game catch encounter system on a
+                    blockchain. All trademarks and copyrights belong to Nintendo. Press Catch Button
+                    below to mint an NFT. Please click details for more info on encounter rate.
+                </p>
             </div>
-            <div>
-                {pkmnAddress ? (
+            <div className="content-center">
+                {isWeb3Enabled ? (
                     <Button
                         onClick={async () =>
                             await catchNft({
@@ -117,7 +121,7 @@ const Mint = () => {
                                 onError: (error) => console.log(error),
                             })
                         }
-                        text={`Catch ${time} PkMn`}
+                        text={`Catch PkMn`}
                         theme="outline"
                     />
                 ) : (
@@ -128,6 +132,16 @@ const Mint = () => {
                         </p>
                     </div>
                 )}
+            </div>
+            <div className="content-center">
+                <h4>Stats</h4>
+                <ul>
+                    <li>Catch(Mint) Fee: </li>
+                    <li>Current Mode: </li>
+                    <li>Total Common Caught: {commonCounter}</li>
+                    <li>Total Shiny Caught: {shinyCounter}</li>
+                    <li>Total Caught(Minted): {totalMinted}</li>
+                </ul>
             </div>
         </section>
     )
