@@ -1,6 +1,6 @@
 import { useWeb3Contract } from "react-moralis"
 import pokemonNftabi from "../constants/pokemonNftAbi.json"
-import networkAddresses from "../constants/pokemonNftAbi.json"
+import networkAddresses from "../constants/networkAddresses.json"
 import { useMoralis } from "react-moralis"
 import { useEffect, useState } from "react"
 import { ethers } from "ethers"
@@ -13,7 +13,9 @@ const Mint = () => {
     const { Moralis, isWeb3Enabled, chainId: chainIdHex } = useMoralis()
     console.log(parseInt(chainIdHex))
     const chainId = parseInt(chainIdHex)
-    const pkmnAddress = chainId in networkAddresses ? networkAddresses[chainId][0] : null
+    const pkmnAddress =
+        chainId in networkAddresses ? networkAddresses[chainId]["CatchNft"][0] : null
+    console.log(`Working with contract address: ${pkmnAddress}`)
     const [mintFee, setMintFee] = useState("0")
     const [commonCounter, setCommonCounter] = useState("0")
     const [shinyCounter, setShinyCounter] = useState("0")
@@ -69,11 +71,16 @@ const Mint = () => {
     })
 
     const updateUI = async () => {
-        setMintFee(await getMintFee())
-        setCommonCounter(await getCommonCounter())
-        setShinyCounter(await getShinyCounter())
-        setTotalMinted(await getTokenCounter())
-        setIsItDay(await getIsItDayTime())
+        const mintFeeFromCall = (await getMintFee()).toString()
+        setMintFee(mintFeeFromCall)
+        const commonCounterFromCall = (await getCommonCounter()).toString()
+        setCommonCounter(commonCounterFromCall)
+        const shinyCounterFromCall = (await getShinyCounter()).toString()
+        setShinyCounter(shinyCounterFromCall)
+        const tokenCounterFromCall = (await getTokenCounter()).toString()
+        setTotalMinted(tokenCounterFromCall)
+        const isItDayFromCall = (await getIsItDayTime()).toString()
+        setIsItDay(isItDayFromCall)
     }
 
     useEffect(() => {
@@ -98,20 +105,18 @@ const Mint = () => {
         })
     }
 
-    // let time = isItDay === true ? day : night
-
     return (
         <section>
             <div className={`flex flex-row p-6 rounded-[20px] feature-card`}>
-                <Image src={day} alt="time" className="w-[50%] object-contain" />
+                <Image src={isItDay ? day : night} alt="time" className="w-[50%] object-contain" />
                 <p className="flex md:flex-row flex-col sm:py-16 py-6">
                     This is for demo purposes to show a pokemon game catch encounter system on a
                     blockchain. All trademarks and copyrights belong to Nintendo. Press Catch Button
                     below to mint an NFT. Please click details for more info on encounter rate.
                 </p>
             </div>
-            <div className="content-center">
-                {isWeb3Enabled ? (
+            <div className="flex flex-col items-center py-10">
+                {pkmnAddress ? (
                     <Button
                         onClick={async () =>
                             await catchNft({
@@ -121,8 +126,9 @@ const Mint = () => {
                                 onError: (error) => console.log(error),
                             })
                         }
-                        text={`Catch PkMn`}
+                        text={`Catch ${isItDay ? "day" : "night"} PkMn`}
                         theme="outline"
+                        className="flex flex1 items-center"
                     />
                 ) : (
                     <div>
@@ -133,11 +139,11 @@ const Mint = () => {
                     </div>
                 )}
             </div>
-            <div className="content-center">
+            <div className="flex flex-col items-center">
                 <h4>Stats</h4>
                 <ul>
-                    <li>Catch(Mint) Fee: </li>
-                    <li>Current Mode: </li>
+                    <li>Catch(Mint) Fee: {ethers.utils.formatUnits(mintFee, "ether")} ETH</li>
+                    <li>Current Mode: {isItDay ? "day" : "night"}</li>
                     <li>Total Common Caught: {commonCounter}</li>
                     <li>Total Shiny Caught: {shinyCounter}</li>
                     <li>Total Caught(Minted): {totalMinted}</li>
