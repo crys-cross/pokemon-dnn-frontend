@@ -107,13 +107,20 @@ const Mint = () => {
 
     return (
         <section>
-            <div className={`flex flex-row p-6 rounded-[20px] feature-card`}>
-                <Image src={isItDay ? day : night} alt="time" className="w-[50%] object-contain" />
-                <p className="flex md:flex-row flex-col sm:py-16 py-6">
-                    This is for demo purposes to show a pokemon game catch encounter system on a
-                    blockchain. All trademarks and copyrights belong to Nintendo. Press Catch Button
-                    below to mint an NFT. Please click details for more info on encounter rate.
-                </p>
+            <div className="flex md:flex-row flex-col-reverse sm:py-16 py-6">
+                <Image
+                    src={isItDay ? day : night}
+                    alt="time"
+                    className="w-[100%] h-[100%] relative z-[5]"
+                />
+                <div className="flex-1 flex justify-center items-start flex-col">
+                    <p className="font-normal text-dimWhite text-[18px] leading-[30.8px] max-w-[470px] mt-5 px-2">
+                        This is for demo purposes to show a pokemon game catch encounter system on a
+                        blockchain. All trademarks and copyrights belong to Nintendo. Press Catch
+                        Button below to mint an NFT. Please click details for more info on encounter
+                        rate.
+                    </p>
+                </div>
             </div>
             <div className="flex flex-col items-center py-10">
                 {pkmnAddress ? (
@@ -126,9 +133,9 @@ const Mint = () => {
                                 onError: (error) => console.log(error),
                             })
                         }
+                        size="xl"
                         text={`Catch ${isItDay ? "day" : "night"} PkMn`}
                         theme="outline"
-                        className="flex flex1 items-center"
                     />
                 ) : (
                     <div>
