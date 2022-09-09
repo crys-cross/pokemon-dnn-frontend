@@ -8,13 +8,15 @@ import { useNotification } from "web3uikit"
 import { Button } from "web3uikit"
 import Image from "next/image"
 import { day, night } from "../assets/index"
+import Link from "next/link"
 
 const Mint = () => {
     const { Moralis, isWeb3Enabled, chainId: chainIdHex } = useMoralis()
-    console.log(parseInt(chainIdHex))
+
     const chainId = parseInt(chainIdHex)
     const pkmnAddress =
         chainId in networkAddresses ? networkAddresses[chainId]["CatchNft"][0] : null
+    console.log(`Network Chain ID is: ${parseInt(chainIdHex)}`)
     console.log(`Working with contract address: ${pkmnAddress}`)
     const [mintFee, setMintFee] = useState("0")
     const [commonCounter, setCommonCounter] = useState("0")
@@ -114,11 +116,14 @@ const Mint = () => {
                     className="w-[100%] h-[100%] relative z-[5]"
                 />
                 <div className="flex-1 flex justify-center items-start flex-col">
-                    <p className="font-normal text-dimWhite text-[18px] leading-[30.8px] max-w-[470px] mt-5 px-2">
+                    <p className="indent-5 font-medium text-[18px] leading-[30.8px] max-w-[470px] mt-5 px-2">
                         This is for demo purposes to show a pokemon game catch encounter system on a
                         blockchain. All trademarks and copyrights belong to Nintendo. Press Catch
-                        Button below to mint an NFT. Please click details for more info on encounter
-                        rate.
+                        Button below to mint an NFT. Please click{" "}
+                        <Link href="/details">
+                            <a className="cursor-pointer hover:text-white">details</a>
+                        </Link>{" "}
+                        for more info on encounter rate.
                     </p>
                 </div>
             </div>
@@ -133,9 +138,14 @@ const Mint = () => {
                                 onError: (error) => console.log(error),
                             })
                         }
-                        size="xl"
-                        text={`Catch ${isItDay ? "day" : "night"} PkMn`}
+                        radius={50}
+                        size="large"
+                        text={`Catch ${isItDay ? "Day" : "Night"} PkMn`}
                         theme="outline"
+                        isLoading={isLoading || isFetching ? true : false}
+                        loadingText={
+                            <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full mr-8"></div>
+                        }
                     />
                 ) : (
                     <div>
@@ -147,13 +157,28 @@ const Mint = () => {
                 )}
             </div>
             <div className="flex flex-col items-center">
-                <h4>Stats</h4>
+                <h4 className="font-medium">INFO</h4>
                 <ul>
-                    <li>Catch(Mint) Fee: {ethers.utils.formatUnits(mintFee, "ether")} ETH</li>
-                    <li>Current Mode: {isItDay ? "day" : "night"}</li>
-                    <li>Total Common Caught: {commonCounter}</li>
-                    <li>Total Shiny Caught: {shinyCounter}</li>
-                    <li>Total Caught(Minted): {totalMinted}</li>
+                    <li className="flex flex-row">
+                        <div className="font-semibold">Catch(Mint) Fee: &nbsp;</div>
+                        {ethers.utils.formatUnits(mintFee, "ether")} ETH
+                    </li>
+                    <li className="flex flex-row">
+                        <div className="font-semibold">Current Mode: &nbsp;</div>
+                        {isItDay ? "DAY" : "NIGHT"}
+                    </li>
+                    <li className="flex flex-row">
+                        <div className="font-semibold">Total Common Caught: &nbsp;</div>
+                        {commonCounter}
+                    </li>
+                    <li className="flex flex-row">
+                        <div className="font-semibold">Total Shiny Caught: &nbsp;</div>
+                        {shinyCounter}
+                    </li>
+                    <li className="flex flex-row">
+                        <div className="font-semibold">Total Caught(Minted): &nbsp;</div>
+                        {totalMinted}
+                    </li>
                 </ul>
             </div>
         </section>

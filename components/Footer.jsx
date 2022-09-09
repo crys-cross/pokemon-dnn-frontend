@@ -5,8 +5,8 @@ import { facebook, instagram, linkedin, twitter } from "../assets"
 const Footer = () => {
     return (
         <section className={`flex justify-center items-center sm:py-16 py-6 flex-col`}>
-            <div className="w-full flex justify-between items-center md:flex-row flex-col pt-6 border-t-[1px] border-t-[#3F3E45]">
-                <p className="font-poppins font-normal text-center text-[18px] leading-[27px] text-white">
+            <div className="w-full flex justify-between items-center md:flex-row flex-col pt-6 border-t-2">
+                <p className="font-normal text-center text-[18px] leading-[27px]">
                     Copyright Ⓒ 2022 Demo Blockchain PKMN NFT. All Rights Reserved.
                 </p>
                 <div className="flex flex-row md:mt-0 mt-6">
@@ -15,7 +15,9 @@ const Footer = () => {
                             key={social.id}
                             src={social.icon}
                             alt={social.id}
-                            className="w-[21px] h-[21px] object-contain cursor-pointer mr-6"
+                            className={`w-[21px] h-[21px] object-contain cursor-pointer bg-gray-500 ${
+                                index !== social.length - 1 ? "mr-6" : "mr-0"
+                            }`}
                             onClick={() => window.open(social.link)}
                         />
                     ))}
