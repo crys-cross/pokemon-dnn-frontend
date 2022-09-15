@@ -111,15 +111,17 @@ const Mint = () => {
         <section>
             <div className="flex md:flex-row flex-col-reverse sm:py-16 py-6">
                 <Image
-                    src={isItDay ? day : night}
+                    src={isItDay === true ? day : night}
                     alt="time"
                     className="w-[100%] h-[100%] relative z-[5]"
                 />
                 <div className="flex-1 flex justify-center items-start flex-col">
                     <p className="indent-5 font-medium text-[18px] leading-[30.8px] max-w-[470px] mt-5 px-2">
-                        This is for demo purposes to show a pokemon game catch encounter system on a
-                        blockchain. All trademarks and copyrights belong to Nintendo. Press Catch
-                        Button below to mint an NFT. Please click{" "}
+                        Welcome! All assets and encounter rates from HeartGold. All trademarks and
+                        copyright belongs to Nintendo. You may try your luck in catching a pokemon
+                        by pressing the button below. Pokemon will vary from rarity and also the
+                        time of the day. Currently only have Day and Night mode with Ho-oh
+                        symbolizing the day and Lugia to symbolize the night. Please click{" "}
                         <Link href="/details">
                             <a className="cursor-pointer hover:text-white">details</a>
                         </Link>{" "}
@@ -140,7 +142,7 @@ const Mint = () => {
                         }
                         radius={50}
                         size="large"
-                        text={`Catch ${isItDay ? "Day" : "Night"} PkMn`}
+                        text={`Catch ${isItDay === true ? "Day" : "Night"} PkMn`}
                         theme="outline"
                         isLoading={isLoading || isFetching ? true : false}
                         loadingText={
@@ -165,7 +167,7 @@ const Mint = () => {
                     </li>
                     <li className="flex flex-row">
                         <div className="font-semibold">Current Mode: &nbsp;</div>
-                        {isItDay ? "DAY" : "NIGHT"}
+                        {isItDay === true ? "DAY" : "NIGHT"}
                     </li>
                     <li className="flex flex-row">
                         <div className="font-semibold">Total Common Caught: &nbsp;</div>
