@@ -26,13 +26,13 @@ const Mint = () => {
     const dispatch = useNotification()
 
     const {
-        runContractFunction: catchNft,
+        runContractFunction: catchPkmn,
         isLoading,
         isFetching,
     } = useWeb3Contract({
         abi: pokemonNftabi,
         contractAddress: pkmnAddress,
-        functionName: "catchNft",
+        functionName: "catchPkmn",
         params: {},
         msgValue: mintFee,
     })
@@ -133,7 +133,7 @@ const Mint = () => {
                 {pkmnAddress ? (
                     <Button
                         onClick={async () =>
-                            await catchNft({
+                            await catchPkmn({
                                 // onComplete:
                                 // onError:
                                 onSuccess: handleSuccess,
