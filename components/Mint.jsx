@@ -111,7 +111,7 @@ const Mint = () => {
         <section>
             <div className="flex md:flex-row flex-col-reverse sm:py-16 py-6">
                 <Image
-                    src={isItDay === true ? day : night}
+                    src={isItDay === "true" ? day : night}
                     alt="time"
                     className="w-[100%] h-[100%] relative z-[5]"
                 />
@@ -142,7 +142,7 @@ const Mint = () => {
                         }
                         radius={50}
                         size="large"
-                        text={`Catch ${isItDay === true ? "Day" : "Night"} PkMn`}
+                        text={`CATCH ${isItDay === "true" ? "DAY" : "NIGHT"} POKEMON`}
                         theme="outline"
                         isLoading={isLoading || isFetching ? true : false}
                         loadingText={
@@ -167,7 +167,7 @@ const Mint = () => {
                     </li>
                     <li className="flex flex-row">
                         <div className="font-semibold">Current Mode: &nbsp;</div>
-                        {isItDay === true ? "DAY" : "NIGHT"}
+                        {isItDay === "true" ? "DAY" : "NIGHT"}
                     </li>
                     <li className="flex flex-row">
                         <div className="font-semibold">Total Common Caught: &nbsp;</div>
