@@ -1,5 +1,9 @@
 ## Next Release
 
+## v0.1.2 (09/17/2022)
+
+-   Improved Notification. Added events values emmited to notification for more details.
+
 ## v0.1.1 (09/16/2022)
 
 -   Fixed UI not changing from night to day. Changed bool true to string "true"

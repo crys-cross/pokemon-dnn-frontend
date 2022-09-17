@@ -92,16 +92,19 @@ const Mint = () => {
     }, [isWeb3Enabled])
 
     const handleSuccess = async (tx) => {
-        await tx.wait(1)
-        handleSuccessNotification(tx)
+        const txReceipt = await tx.wait(1)
+        const event = txReceipt.events[1]
+        const value = event.args[0]
+        const pkmnId = value.toString()
+        handleSuccessNotification(pkmnId)
         updateUI()
     }
 
     const handleSuccessNotification = () => {
         dispatch({
-            type: "sucess",
-            message: "Entered Successfully",
-            title: "Tx Notification",
+            type: "success",
+            message: `Congratulations! NFT Id: ${pkmnId}`,
+            title: "Pokemon Caught!",
             position: "topR",
             icon: "bell",
         })
@@ -134,9 +137,9 @@ const Mint = () => {
                     <Button
                         onClick={async () =>
                             await catchPkmn({
-                                // onComplete:
                                 // onError:
                                 onSuccess: handleSuccess,
+                                // onComplete: handleSuccess,
                                 onError: (error) => console.log(error),
                             })
                         }
